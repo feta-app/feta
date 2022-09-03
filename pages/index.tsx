@@ -6,6 +6,7 @@ import Fuse from 'fuse.js';
 import { Box, Button, Flex, Heading, Input, Text } from '@chakra-ui/react';
 import { unitify, useLocationState } from '../components/location';
 import distance from '@turf/distance';
+import ms from 'ms';
 
 // function SimpleMap() {
 //   const defaultProps = {
@@ -70,6 +71,14 @@ const Home = () => {
       setZoom(15);
     }
   }, [locationState.type]);
+  
+  const [now, setNow] = useState(Date.now());
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setNow(Date.now());
+    }, ms("1s"));
+    return () => clearInterval(interval);
+  }, []);
 
   const [selectedID, setSelectedID] = useState<string | null>(null);
   const selectedItem = foodItems.find(item => item._id === selectedID);
@@ -156,9 +165,10 @@ const Home = () => {
                 } />}
                 <Box fontSize="md" textAlign="left" position="absolute" backgroundColor="whiteAlpha.900" backdropFilter="saturate(0)" color="black" width={300} p={4} borderRadius={10} bottom={100} shadow="base">
                   <Text fontSize="lg" fontWeight="bold">{selectedItem.description}</Text>
-                  {locationState.type === "loaded" && <Text color="gray.500">{unitify(distance([locationState.position!.coords.longitude, locationState.position!.coords.latitude], [selectedItem.long, selectedItem.lat], {
+                  {locationState.type === "loaded" && <Text color="gray.800" mb={2}>{unitify(distance([locationState.position!.coords.longitude, locationState.position!.coords.latitude], [selectedItem.long, selectedItem.lat], {
                     units: "miles",
                   }))} away</Text>}
+                  <Text color="gray.500">Expires in {ms(selectedItem.expiresAt * 1000 - now, { long: true })}</Text>
                 </Box>
               </div>}
             </GoogleMapReact>
@@ -187,8 +197,11 @@ const Home = () => {
               }}>
                 <Flex key={foodItem._id} p={4} alignItems="center" borderBottom="1px" borderBottomColor={"gray.200"} backgroundColor={foodItem._id === selectedID ? "blue.100" : "white"} gap={3}>
                   <img src={foodItem.photo} style={{ width: 50, height: 50, alignItems: 'center', borderRadius: '50%', objectFit: "cover" }} />
-                  <Text flexGrow={1}>{foodItem.description}</Text>
-                  {locationState.type === "loaded" && <Text color="gray.500">{unitify(distance([locationState.position!.coords.longitude, locationState.position!.coords.latitude], [foodItem.long, foodItem.lat], {
+                  <Box flexGrow={1}>
+                    <Text fontWeight="bold">{foodItem.description}</Text>
+                    <Text color="gray.500">Expires in {ms(foodItem.expiresAt * 1000 - now, { long: true })}</Text>
+                  </Box>
+                  {locationState.type === "loaded" && <Text fontSize="lg">{unitify(distance([locationState.position!.coords.longitude, locationState.position!.coords.latitude], [foodItem.long, foodItem.lat], {
                     units: "miles",
                   }))}</Text>}
                 </Flex>
