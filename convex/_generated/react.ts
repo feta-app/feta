@@ -14,6 +14,7 @@ import type deleteFoodItem from "../deleteFoodItem";
 import type getCounter from "../getCounter";
 import type getUserDetails from "../getUserDetails";
 import type incrementCounter from "../incrementCounter";
+import type listFoodFromUser from "../listFoodFromUser";
 import type listFoodItems from "../listFoodItems";
 import type listMessages from "../listMessages";
 import type sendMessage from "../sendMessage";
@@ -34,6 +35,7 @@ export type ConvexAPI = {
   queries: {
     getCounter: ClientQuery<typeof getCounter>;
     getUserDetails: ClientQuery<typeof getUserDetails>;
+    listFoodFromUser: ClientQuery<typeof listFoodFromUser>;
     listFoodItems: ClientQuery<typeof listFoodItems>;
     listMessages: ClientQuery<typeof listMessages>;
   };
