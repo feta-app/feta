@@ -4,6 +4,19 @@ import styles from '../styles/Home.module.css'
 import Link from 'next/link'
 import { useState } from 'react'
 import { useMutation, useQuery } from '../convex/_generated/react'
+
+import GoogleMapReact from 'google-map-react';
+
+// function SimpleMap() {
+//   const defaultProps = {
+//     center: {
+//       lat: 10.99835602,
+//       lng: 77.01502627
+//     },
+//     zoom: 11
+//   };
+// }
+
 //Anthony Li is a menace to M&T and
 // society
 // an absolute menace
@@ -48,10 +61,10 @@ const Home = () => {
           </li>
         </ul>
 
-        Cookies:<br/>
-        {cookieContaining.map(f => <div>{f.body}<br/></div>)}
-        all:<br/>
-        {all.map(f => <div>{f.body}<br/></div>)}
+        Cookies:<br />
+        {cookieContaining.map(f => <div>{f.body}<br /></div>)}
+        all:<br />
+        {all.map(f => <div>{f.body}<br /></div>)}
 
         <form
           onSubmit={onSubmit}
@@ -69,17 +82,28 @@ const Home = () => {
             className="ms-2 btn btn-primary"
           />
         </form>
+        <div style={{ height: '100vh', width: '100%' }}>
+          <GoogleMapReact
+            bootstrapURLKeys={{ key: "" }}
+            defaultCenter={{
+              lat: 10.99835602,
+              lng: 77.01502627
+            }}
+            defaultZoom={11}
+          >
+          </GoogleMapReact>
+        </div>
       </main>
 
       <footer className={styles.footer}>
         <a
-          href="https://www.convex.dev/"
+          href="https://www.facebook.com/"
           target="_blank"
           rel="noopener noreferrer"
         >
           Powered by{' '}
           <span className={styles.logo}>
-            <Image src="/convex.svg" alt="Convex Logo" width={90} height={18} />
+            <Image src="/feta-logo.png" alt="Convex Logo" width={90} height={18} />
           </span>
         </a>
       </footer>
@@ -87,4 +111,4 @@ const Home = () => {
   )
 }
 
-export default Home
+  export default Home;

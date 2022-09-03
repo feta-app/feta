@@ -11,9 +11,11 @@
     "@emotion/styled": "^11.10.4",
     "convex": "latest",
     "framer-motion": "^7.2.1",
+    "google-map-react": "^2.2.0",
     "next": "latest",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-webcam": "^7.0.1"
   },
   "devDependencies": {
     "@types/node": "~16.11.12",
