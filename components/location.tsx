@@ -29,13 +29,10 @@ export function useLocationState(): [LocationState, () => void] {
     return useContext(LocationContext);
 }
 
-export function unitify(meters: number) {
-    // Convert to miles.
-    const miles = meters * 0.000621371;
-
+export function unitify(miles: number) {
     // If miles is less than 0.5, return feet.
     if (miles < 0.5) {
-        return `${Math.round(meters * 3.28084)} ft`;
+        return `${Math.round(miles * 5280)} ft`;
     }
 
     return `${miles.toFixed(1)} mi`;
