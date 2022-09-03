@@ -7,11 +7,17 @@ const convex = new ConvexReactClient(clientConfig);
 
 function MyApp({ Component, pageProps }) {
   return (
-    <ChakraProvider>
-      <ConvexProvider client={convex}>
-        <Component {...pageProps} />
-      </ConvexProvider>
-    </ChakraProvider>
+    <Auth0Provider
+      domain="dev--zhus8r0.us.auth0.com"
+      clientId="0OLYMc0NC9InvP4WCKGweiIyEtOeNCjj"
+      redirectUri={window.location.origin}
+    >
+      <ChakraProvider>
+        <ConvexProvider client={convex}>
+          <Component {...pageProps} />
+        </ConvexProvider>
+      </ChakraProvider>
+    </Auth0Provider>
   )
 }
 
