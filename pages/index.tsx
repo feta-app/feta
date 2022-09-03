@@ -1,9 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import styles from '../styles/Home.module.css'
-import Link from 'next/link'
-import { useState } from 'react'
-import { useMutation, useQuery } from '../convex/_generated/react'
+import { useQuery } from '../convex/_generated/react'
 
 import GoogleMapReact from 'google-map-react';
 
@@ -24,43 +21,17 @@ import GoogleMapReact from 'google-map-react';
 // you're welcome
 //Feta is a masterstroke of genius
 const Home = () => {
-  const sendMessage = useMutation("sendMessage");
-  const [newMessageText, setNewMessageText] = useState("")
-
-  async function onSubmit(event: React.FormEvent) {
-    event.preventDefault();
-    setNewMessageText(""); // reset text entry box
-    await sendMessage(newMessageText);
-  }
-
-  const cookieContaining = useQuery("listMessages", "cookie") || [];
-  const all = useQuery("listMessages", "") || [];
+  const listFoodItems = useQuery("listFoodItems") || [];
 
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
         <title>Feta</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-
-        <form
-          onSubmit={onSubmit}
-          className="d-flex justify-content-center"
-        >
-          <input
-            value={newMessageText}
-            onChange={event => setNewMessageText(event.target.value)}
-            className="form-control w-50"
-            placeholder="Describe the free food..."
-          />
-          <input
-            type="submit"
-            value="Send"
-            className="ms-2 btn btn-primary"
-          />
-        </form>
+      <main>
+        
         <div style={{ height: '100vh', width: '100%' }}>
           <GoogleMapReact
             bootstrapURLKeys={{ key: "AIzaSyCSxzMYTqfbSHfVOtitKKztGTPQq-KfwwI" }}
@@ -74,7 +45,7 @@ const Home = () => {
         </div>
       </main>
 
-      <footer className={styles.footer}>
+      <footer>
         <a
           href="https://www.facebook.com/"
           target="_blank"

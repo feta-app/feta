@@ -38,7 +38,7 @@ export default mutation(async ({ db, auth }): Promise<any> => {
         name: identity.name!,
         tokenIdentifier: identity.tokenIdentifier,
         email: identity.email!,
-        phone: identity.phoneNumber,
+        phone: identity.phoneNumber || null,
         // The `_id` field will be assigned by the backend.
     });
 });

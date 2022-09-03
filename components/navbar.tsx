@@ -50,16 +50,8 @@ export default function Navbar() {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={'center'}>
-            <Box>
-              <Link href="/">
-              <Image
-                height={"50px"}
-                objectFit={'cover'}
-                src={'feta-logo-better.png'}
-                alt={'Feta logo'}
-              />
-              </Link>
-            </Box>
+            {/* <Box>Logo</Box> */}
+            <img src="/logo-classy.png" alt="Convex Logo" width={90} height={18} />
             <HStack
               as={'nav'}
               spacing={4}
