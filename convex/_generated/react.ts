@@ -11,13 +11,10 @@
 
 import type createFoodItem from "../createFoodItem";
 import type deleteFoodItem from "../deleteFoodItem";
-import type getCounter from "../getCounter";
 import type getUserDetails from "../getUserDetails";
-import type incrementCounter from "../incrementCounter";
 import type listFoodFromUser from "../listFoodFromUser";
 import type listFoodItems from "../listFoodItems";
-import type listMessages from "../listMessages";
-import type sendMessage from "../sendMessage";
+import type rateFoodItems from "../rateFoodItems";
 import type storeUser from "../storeUser";
 import type { OptimisticLocalStore as GenericOptimisticLocalStore } from "convex/browser";
 import type { ClientMutation, ClientQuery } from "convex/server";
@@ -33,17 +30,14 @@ import type { ClientMutation, ClientQuery } from "convex/server";
  */
 export type ConvexAPI = {
   queries: {
-    getCounter: ClientQuery<typeof getCounter>;
     getUserDetails: ClientQuery<typeof getUserDetails>;
     listFoodFromUser: ClientQuery<typeof listFoodFromUser>;
     listFoodItems: ClientQuery<typeof listFoodItems>;
-    listMessages: ClientQuery<typeof listMessages>;
   };
   mutations: {
     createFoodItem: ClientMutation<typeof createFoodItem>;
     deleteFoodItem: ClientMutation<typeof deleteFoodItem>;
-    incrementCounter: ClientMutation<typeof incrementCounter>;
-    sendMessage: ClientMutation<typeof sendMessage>;
+    rateFoodItems: ClientMutation<typeof rateFoodItems>;
     storeUser: ClientMutation<typeof storeUser>;
   };
 };
