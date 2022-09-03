@@ -30,8 +30,8 @@ export function useLocationState(): [LocationState, () => void] {
 }
 
 export function unitify(miles: number) {
-    // If miles is less than 0.5, return feet.
-    if (miles < 0.5) {
+    // If miles is less than 0.2, return feet.
+    if (miles <= 0.2) {
         return `${Math.round(miles * 5280)} ft`;
     }
 
