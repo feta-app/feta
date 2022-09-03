@@ -51,7 +51,9 @@ export default function Navbar() {
           />
           <HStack spacing={8} alignItems={'center'}>
             {/* <Box>Logo</Box> */}
+            <Link href="/">
             <img src="/logo-classy.png" alt="Convex Logo" width={90} height={18} />
+            </Link>
             <HStack
               as={'nav'}
               spacing={4}
