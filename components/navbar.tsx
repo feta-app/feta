@@ -49,7 +49,8 @@ export default function Navbar() {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={'center'}>
-            <Box>Logo</Box>
+            {/* <Box>Logo</Box> */}
+            <img src="/logo-classy.png" alt="Convex Logo" width={90} height={18} />
             <HStack
               as={'nav'}
               spacing={4}
