@@ -9,11 +9,14 @@
  * @module
  */
 
+import type createFoodItem from "../createFoodItem";
 import type getCounter from "../getCounter";
+import type getUserDetails from "../getUserDetails";
 import type incrementCounter from "../incrementCounter";
 import type listFoodItems from "../listFoodItems";
 import type listMessages from "../listMessages";
 import type sendMessage from "../sendMessage";
+import type storeUser from "../storeUser";
 import type { OptimisticLocalStore as GenericOptimisticLocalStore } from "convex/browser";
 import type { ClientMutation, ClientQuery } from "convex/server";
 
@@ -29,12 +32,15 @@ import type { ClientMutation, ClientQuery } from "convex/server";
 export type ConvexAPI = {
   queries: {
     getCounter: ClientQuery<typeof getCounter>;
+    getUserDetails: ClientQuery<typeof getUserDetails>;
     listFoodItems: ClientQuery<typeof listFoodItems>;
     listMessages: ClientQuery<typeof listMessages>;
   };
   mutations: {
+    createFoodItem: ClientMutation<typeof createFoodItem>;
     incrementCounter: ClientMutation<typeof incrementCounter>;
     sendMessage: ClientMutation<typeof sendMessage>;
+    storeUser: ClientMutation<typeof storeUser>;
   };
 };
 
