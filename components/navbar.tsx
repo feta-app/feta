@@ -39,12 +39,9 @@ const NavLink = ({ children }: { children: ReactNode }) => (
 
 export default function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-<<<<<<< HEAD
   const { logout, user } = useAuth0();
 
-=======
   const { colorMode, toggleColorMode } = useColorMode();
->>>>>>> c3eb91c47a9f68375550a1da8159085478b4500f
   return (
     <>
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
