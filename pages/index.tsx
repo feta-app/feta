@@ -52,15 +52,17 @@ const Home = () => {
                 lng={foodItem.long}
                 style={{
                   color: 'white',
-                  background: 'grey',
-                  padding: '15px 10px',
+                  background: '#EB8258',
+                  padding: '3px 3px',
                   display: 'inline-flex',
                   textAlign: 'center',
                   alignItems: 'center',
                   justifyContent: 'center',
                   transform: 'translate(-50%, -50%)',
+                  borderRadius: '50%',
+                  overflow: 'hidden',
                 }}>
-                  <img src={foodItem.photo} style={{ width: 50, height: 50 }} />
+                  <img src={foodItem.photo} style={{ width: 60, height: 60, alignItems: 'center', borderRadius: '50%', objectFit: "cover" }} />
                 </div>
             })}
           </GoogleMapReact>
