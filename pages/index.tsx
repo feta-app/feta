@@ -7,7 +7,7 @@ import { filter, useColorModeValue } from '@chakra-ui/react';
 import { useMemo, useState } from 'react';
 import Fuse from 'fuse.js';
 import { Box, Button, Flex, Heading, Input, Text } from '@chakra-ui/react';
-import { useLocationState } from '../lib/location';
+import { unitify, useLocationState } from '../components/location';
 import distance from '@turf/distance';
 
 // function SimpleMap() {
@@ -128,6 +128,7 @@ const Home = () => {
               return <Flex key={foodItem._id} p={4} alignItems="center" borderBottom="1px" borderBottomColor="gray.200" gap={3}>
                 <img src={foodItem.photo} style={{ width: 50, height: 50, alignItems: 'center', borderRadius: '50%', objectFit: "cover" }} />
                 <Text flexGrow={1}>{foodItem.description}</Text>
+                {locationState.type === "loaded" && <Text color="gray.500">{unitify(distance([locationState.position!.coords.longitude, locationState.position!.coords.latitude], [foodItem.long, foodItem.lat]))}</Text>}
               </Flex>;
             })}
           </Box>

@@ -2,8 +2,8 @@ import { Box, Button, Flex, Image, Input, Select, Text } from "@chakra-ui/react"
 import { useRouter } from "next/router";
 import { useCallback, useRef, useState } from "react";
 import Webcam from "react-webcam";
+import { useLocationState } from "../components/location";
 import { useMutation } from "../convex/_generated/react";
-import { useLocationState } from "../lib/location";
 
 export default function AddFood() {
     const webcamRef = useRef();
