@@ -31,7 +31,9 @@ export default function DeleteFood() {
     //     return searcher.search(ID);
     //   }, [searcher, ID]);
     const deleteFoodItem = useMutation("deleteFoodItem");
-    const handleClick = (id) => {    console.log('this is:', this);  };
+    const handleClick = (id) => {  
+        deleteFoodItem(id);
+     };
     return <Box>
         <Box p={4} textAlign="center">
             Delete Food
@@ -70,7 +72,7 @@ export default function DeleteFood() {
                                 <Td>{ms(foodItem.createdAt)}</Td>
                                 <Td>{foodItem.description}</Td>
                                 <Td>{foodItem.photo !== null && <Image boxSize='70px' src={foodItem.photo} />}</Td>
-                                <Td><Button>Delete</Button></Td>
+                                <Td><Button onClick={()=> deleteFoodItem(foodItem._id)}>Delete</Button></Td>
                             </Tr>
                         })}
                     </Tbody>

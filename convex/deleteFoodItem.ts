@@ -15,9 +15,9 @@ export default mutation(async ({ db, auth }, item: string) => {
 
     // createFoodItem logic
     const identity = await auth.getUserIdentity();
-    if (!identity) throw new Error("Unauthenticated call to deleteFoodItem");
+    if (!identity) throw new Error("Unauthenticated call to deleteFoodItem, no identity.");
     const user = await db.table("users").filter(q => q.eq(q.field("tokenIdentifier"), identity.tokenIdentifier)).unique();
-    if (!(user._id==counterDoc.userID)) throw new Error("Unauthenticated call to deleteFoodItem");
+    if (!(user._id.equals(counterDoc.userID))) throw new Error("Unauthenticated call to deleteFoodItem");
     
     // const user = await db.table("users").filter(q => q.eq(q.field("tokenIdentifier"), identity.tokenIdentifier)).unique();
     
