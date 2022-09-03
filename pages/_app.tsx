@@ -9,6 +9,7 @@ import convexConfig from '../convex.json';
 import { createContext, Fragment, PropsWithChildren, useContext, useEffect, useState } from 'react';
 import storeUser from '../convex/storeUser';
 import { useMutation } from '../convex/_generated/react';
+import { LocationProvider, useLocationState } from '../components/location';
 
 const convex = new ConvexReactClient(clientConfig);
 const authInfo = convexConfig.authInfo[0];
@@ -42,10 +43,12 @@ function MyApp({ Component, pageProps }) {
       authInfo={authInfo}
     >
       <UserStorer>
-        <ChakraProvider>
-          <Navbar />
-          <Component {...pageProps} />
-        </ChakraProvider>
+        <LocationProvider>
+          <ChakraProvider>
+            <Navbar />
+            <Component {...pageProps} />
+          </ChakraProvider>
+        </LocationProvider>
       </UserStorer>
     </ConvexProviderWithAuth0>
   )

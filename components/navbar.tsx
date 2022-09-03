@@ -19,6 +19,7 @@ import {
   Stack,
   Image
 } from '@chakra-ui/react';
+import NextLink from 'next/link';
 import { HamburgerIcon, CloseIcon, AddIcon, MoonIcon, SunIcon } from '@chakra-ui/icons';
 
 const Links = ['About', 'Settings'];
@@ -55,9 +56,11 @@ export default function Navbar() {
           />
           <HStack spacing={8} alignItems={'center'}>
             {/* <Box>Logo</Box> */}
-            <Link href="/">
-              <img src="/logo-classy.png" alt="Convex Logo" width={90} height={18} />
-            </Link>
+            <NextLink passHref href="/">
+              <Link>
+                <img src="/logo-classy.png" alt="Convex Logo" width={90} height={18} />
+              </Link>
+            </NextLink>
             <HStack
               as={'nav'}
               spacing={4}
@@ -73,8 +76,9 @@ export default function Navbar() {
                 {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
               </Button>
             </Box>
-            <Link href="/add">
+            <NextLink passHref href="/add">
               <Button
+                as="a"
                 variant={'solid'}
                 colorScheme={'orange'}
                 size={'sm'}
@@ -82,7 +86,7 @@ export default function Navbar() {
                 leftIcon={<AddIcon />}>
                 Food!
               </Button>
-            </Link>
+            </NextLink>
 
             <Menu>
               <MenuButton
