@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useCallback, useRef, useState } from "react";
 import Webcam from "react-webcam";
 import { useMutation } from "../convex/_generated/react";
+import { useLocationState } from "../lib/location";
 
 export default function AddFood() {
     const webcamRef = useRef();
@@ -12,10 +13,7 @@ export default function AddFood() {
         setImage(webcamRef.current.getScreenshot());
     }, [webcamRef]);
 
-    const [locationState, setLocationState] = useState<{ type: string, position?: GeolocationPosition }>({
-        // none, loading, error, loaded
-        type: "none",
-    });
+    const [locationState, fetchLocation] = useLocationState();
 
     const [description, setDescription] = useState("");
     const [expiresIn, setExpiresIn] = useState((60 * 60).toString());
@@ -63,21 +61,14 @@ export default function AddFood() {
             <Flex mb={4} alignItems="center" gap={2}>
                 <strong>Location</strong>
                 {locationState.type === "error" && <Text color="red">Couldn't determine position</Text>}
-                {locationState.type !== "loaded" && <Button isLoading={locationState.type === "loading"} gap={2} colorScheme="orange" onClick={async () => {
-                    setLocationState({ type: "loading" });
-                    navigator.geolocation.getCurrentPosition(position => {
-                        setLocationState({ type: "loaded", position });
-                    }, error => {
-                        console.error(error);
-                        setLocationState({ type: "error" });
-                    });
-                }}>Get location</Button>}
+                {locationState.type !== "loaded" && <Button isLoading={locationState.type === "loading"} gap={2} colorScheme="orange" onClick={fetchLocation}>Get location</Button>}
                 {locationState.type === "loaded" && <span>({locationState.position.coords.latitude}, {locationState.position.coords.longitude})</span>}
             </Flex>
             <Box mb={4}>
                 <Button onClick={async () => {
                     setSubmitting(true);
                     try {
+                        if (locationState.type !== "loaded") throw new Error("Couldn't determine location");
                         await createFoodItem(description, locationState.position.coords.latitude, locationState.position.coords.longitude, parseInt(expiresIn), image);
                         push("/");
                     } catch (e) {
