@@ -44,10 +44,7 @@ const Home = () => {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          <img src="/feta.png" />
-          Feta is the best
-        </h1>
+        
         <ul>
           <li>
             <Link href="/chat">
