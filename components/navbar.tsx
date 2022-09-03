@@ -91,7 +91,9 @@ export default function Navbar() {
               <MenuList>
                 <MenuItem>Settings</MenuItem>
                 <MenuDivider />
-                <MenuItem>Log out</MenuItem>
+                <MenuItem onClick={() => {
+                  // Logs out
+                }}>Log out</MenuItem>
                 <MenuItem>Delete Account</MenuItem>
               </MenuList>
             </Menu>
