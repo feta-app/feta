@@ -3,5 +3,10 @@
   "team": "anli5005",
   "prodUrl": "https://peaceful-caterpillar-34.convex.cloud",
   "functions": "convex/",
-  "authInfo": []
+  "authInfo": [
+    {
+      "domain": "https://dev--zhus8r0.us.auth0.com/",
+      "applicationID": "0OLYMc0NC9InvP4WCKGweiIyEtOeNCjj"
+    }
+  ]
 }

@@ -11,6 +11,7 @@
 
 import type getCounter from "../getCounter";
 import type incrementCounter from "../incrementCounter";
+import type listFoodItems from "../listFoodItems";
 import type listMessages from "../listMessages";
 import type sendMessage from "../sendMessage";
 import type { OptimisticLocalStore as GenericOptimisticLocalStore } from "convex/browser";
@@ -28,6 +29,7 @@ import type { ClientMutation, ClientQuery } from "convex/server";
 export type ConvexAPI = {
   queries: {
     getCounter: ClientQuery<typeof getCounter>;
+    listFoodItems: ClientQuery<typeof listFoodItems>;
     listMessages: ClientQuery<typeof listMessages>;
   };
   mutations: {
