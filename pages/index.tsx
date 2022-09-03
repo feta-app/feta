@@ -52,7 +52,7 @@ const Home = () => {
           rel="noopener noreferrer"
         >
           Powered by{' '}
-          <span className={styles.logo}>
+          <span>
             <Image src="/feta-logo-better.png" alt="Convex Logo" width={90} height={18} />
           </span>
         </a>
