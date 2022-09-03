@@ -3,9 +3,13 @@ import Image from 'next/image'
 import { useQuery } from '../convex/_generated/react'
 import styles from '../styles/Home.module.css';
 import GoogleMapReact from 'google-map-react';
+<<<<<<< HEAD
+import { filter, useColorModeValue } from '@chakra-ui/react';
+=======
 import { useMemo, useState } from 'react';
 import Fuse from 'fuse.js';
 import { Box, Flex, Input } from '@chakra-ui/react';
+>>>>>>> b283354de8d7510cb5330a1933cc532d8796648b
 
 // function SimpleMap() {
 //   const defaultProps = {
@@ -23,6 +27,14 @@ import { Box, Flex, Input } from '@chakra-ui/react';
 // thank you
 // you're welcome
 //Feta is a masterstroke of genius
+
+const styleLight = {
+  
+}
+const styleDark = {
+  height: "100vh",
+  filter: "invert(90%)"
+}
 const Home = () => {
   const foodItems = useQuery("listFoodItems") || [];
   const searcher = useMemo(() => {

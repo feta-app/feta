@@ -14,13 +14,14 @@ import {
   MenuItem,
   MenuDivider,
   useDisclosure,
+  useColorMode,
   useColorModeValue,
   Stack,
   Image
 } from '@chakra-ui/react';
-import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons';
+import { HamburgerIcon, CloseIcon, AddIcon, MoonIcon, SunIcon } from '@chakra-ui/icons';
 
-const Links = ['About','Settings'];
+const Links = ['About', 'Settings'];
 
 const NavLink = ({ children }: { children: ReactNode }) => (
   <Link
@@ -38,12 +39,16 @@ const NavLink = ({ children }: { children: ReactNode }) => (
 
 export default function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+<<<<<<< HEAD
   const { logout, user } = useAuth0();
 
+=======
+  const { colorMode, toggleColorMode } = useColorMode();
+>>>>>>> c3eb91c47a9f68375550a1da8159085478b4500f
   return (
     <>
       <Box bg={useColorModeValue('gray.100', 'gray.900')} px={4}>
-        <Flex h={16} alignItems={'center'} justifyContent={'space-between'}>
+        <Flex h={16} alignItems={'center'} justifyContent={'space-between'} >
           <IconButton
             size={'md'}
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
@@ -54,7 +59,7 @@ export default function Navbar() {
           <HStack spacing={8} alignItems={'center'}>
             {/* <Box>Logo</Box> */}
             <Link href="/">
-            <img src="/logo-classy.png" alt="Convex Logo" width={90} height={18} />
+              <img src="/logo-classy.png" alt="Convex Logo" width={90} height={18} />
             </Link>
             <HStack
               as={'nav'}
@@ -66,6 +71,11 @@ export default function Navbar() {
             </HStack>
           </HStack>
           <Flex alignItems={'center'}>
+            <Box spacing={4}>
+              <Button onClick={toggleColorMode} >
+                {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+              </Button>
+            </Box>
             <Link href="/add">
               <Button
                 variant={'solid'}
@@ -76,6 +86,7 @@ export default function Navbar() {
                 Food!
               </Button>
             </Link>
+
             <Menu>
               <MenuButton
                 as={Button}
