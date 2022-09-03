@@ -66,7 +66,7 @@ export default function Navbar() {
               size={'sm'}
               mr={4}
               leftIcon={<AddIcon />}>
-              Action
+              Food!
             </Button>
             <Menu>
               <MenuButton
