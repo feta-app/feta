@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { useQuery } from '../convex/_generated/react'
 import GoogleMapReact from 'google-map-react';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Fuse from 'fuse.js';
 import { Box, Button, Flex, Heading, Input, Text } from '@chakra-ui/react';
 import { unitify, useLocationState } from '../components/location';
@@ -60,6 +60,16 @@ const Home = () => {
       return results;
     }
   }, [locationState, results]);
+
+  useEffect(() => {
+    if (locationState.type === "loaded") {
+      setCenter({
+        lat: locationState.position.coords.latitude,
+        lng: locationState.position.coords.longitude,
+      });
+      setZoom(15);
+    }
+  }, [locationState.type]);
 
   const [selectedID, setSelectedID] = useState<string | null>(null);
   const selectedItem = foodItems.find(item => item._id === selectedID);
