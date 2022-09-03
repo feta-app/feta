@@ -68,7 +68,7 @@ export default function Navbar() {
             </HStack>
           </HStack>
           <Flex alignItems={'center'}>
-            <Box spacing={4}>
+            <Box>
               <Button onClick={toggleColorMode} >
                 {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
               </Button>
