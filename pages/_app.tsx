@@ -6,9 +6,22 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { ConvexProviderWithAuth0 } from 'convex/react-auth0';
 import Navbar from '../components/navbar';
 import convexConfig from '../convex.json';
+import { Fragment, useEffect } from 'react';
+import storeUser from '../convex/storeUser';
+import { useMutation } from '../convex/_generated/react';
 
 const convex = new ConvexReactClient(clientConfig);
 const authInfo = convexConfig.authInfo[0];
+
+function UserStorer() {
+  const storeUser = useMutation("storeUser");
+
+  useEffect(() => {
+    storeUser();
+  }, [storeUser]);
+
+  return <Fragment />;
+}
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -16,12 +29,11 @@ function MyApp({ Component, pageProps }) {
       client={convex}
       authInfo={authInfo}
     >
-    <ChakraProvider>
-      <ConvexProvider client={convex}>
+      <ChakraProvider>
         <Navbar />
         <Component {...pageProps} />
-      </ConvexProvider>
-    </ChakraProvider>
+      </ChakraProvider>
+      <UserStorer />
     </ConvexProviderWithAuth0>
   )
 }
