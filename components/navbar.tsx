@@ -15,10 +15,11 @@ import {
   useDisclosure,
   useColorModeValue,
   Stack,
+  Image
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon, AddIcon } from '@chakra-ui/icons';
 
-const Links = ['Dashboard', 'Projects', 'Team'];
+const Links = ['About','Settings'];
 
 const NavLink = ({ children }: { children: ReactNode }) => (
   <Link
@@ -49,7 +50,16 @@ export default function Navbar() {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={'center'}>
-            <Box>Logo</Box>
+            <Box>
+              <Link href="/">
+              <Image
+                height={"50px"}
+                objectFit={'cover'}
+                src={'feta-logo-better.png'}
+                alt={'Feta logo'}
+              />
+              </Link>
+            </Box>
             <HStack
               as={'nav'}
               spacing={4}
@@ -60,14 +70,16 @@ export default function Navbar() {
             </HStack>
           </HStack>
           <Flex alignItems={'center'}>
-            <Button
-              variant={'solid'}
-              colorScheme={'teal'}
-              size={'sm'}
-              mr={4}
-              leftIcon={<AddIcon />}>
-              Food!
-            </Button>
+            <Link href="/add">
+              <Button
+                variant={'solid'}
+                colorScheme={'orange'}
+                size={'sm'}
+                mr={4}
+                leftIcon={<AddIcon />}>
+                Food!
+              </Button>
+            </Link>
             <Menu>
               <MenuButton
                 as={Button}
@@ -83,10 +95,10 @@ export default function Navbar() {
                 />
               </MenuButton>
               <MenuList>
-                <MenuItem>Link 1</MenuItem>
-                <MenuItem>Link 2</MenuItem>
+                <MenuItem>Settings</MenuItem>
                 <MenuDivider />
-                <MenuItem>Link 3</MenuItem>
+                <MenuItem>Log out</MenuItem>
+                <MenuItem>Delete Account</MenuItem>
               </MenuList>
             </Menu>
           </Flex>
@@ -102,8 +114,6 @@ export default function Navbar() {
           </Box>
         ) : null}
       </Box>
-
-      <Box p={4}>Main Content Here</Box>
     </>
   );
 }

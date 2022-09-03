@@ -44,24 +44,6 @@ const Home = () => {
       </Head>
 
       <main className={styles.main}>
-        
-        <ul>
-          <li>
-            <Link href="/chat">
-              <a>chat</a>
-            </Link>
-          </li>
-          <li>
-            <Link href="/counter">
-              <a>counter</a>
-            </Link>
-          </li>
-        </ul>
-
-        Cookies:<br />
-        {cookieContaining.map(f => <div>{f.body}<br /></div>)}
-        all:<br />
-        {all.map(f => <div>{f.body}<br /></div>)}
 
         <form
           onSubmit={onSubmit}
@@ -100,7 +82,7 @@ const Home = () => {
         >
           Powered by{' '}
           <span className={styles.logo}>
-            <Image src="/feta-logo.png" alt="Convex Logo" width={90} height={18} />
+            <Image src="/feta-logo-better.png" alt="Convex Logo" width={90} height={18} />
           </span>
         </a>
       </footer>
