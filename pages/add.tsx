@@ -27,7 +27,7 @@ export default function AddFood() {
         <Box p={4} textAlign="center">
             Add Food
         </Box>
-        <Box maxWidth={800} mx="auto">
+        <Box px={[4, 0]} maxWidth={800} mx="auto">
             <Box mb={4} backgroundColor="black" backgroundImage={image} backgroundSize="contain" backgroundRepeat="no-repeat" backgroundPosition="center" width="100%" height={450} mx="auto" overflow="hidden" borderRadius={20} position="relative">
                 {!image && <><Webcam ref={webcamRef} audio={false} screenshotFormat="image/jpeg" videoConstraints={{
                     width: 1280,
