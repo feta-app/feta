@@ -63,6 +63,11 @@ const Home = () => {
 
   const [selectedID, setSelectedID] = useState<string | null>(null);
   const selectedItem = foodItems.find(item => item._id === selectedID);
+  const [center, setCenter] = useState({
+    lat: 39.9534148,
+    lng: -75.1892429,
+  });
+  const [zoom, setZoom] = useState(14);
 
   return (
     <div>
@@ -78,11 +83,8 @@ const Home = () => {
           <Box h={[320, 320, "full"]} flexGrow={[0, 0, 1]}>
             <GoogleMapReact
               bootstrapURLKeys={{ key: "AIzaSyCSxzMYTqfbSHfVOtitKKztGTPQq-KfwwI" }}
-              defaultCenter={{
-                lat: 39.9534148,
-                lng: -75.1892429
-              }}
-              defaultZoom={14}
+              center={center}
+              zoom={zoom}
             >
               {results.filter(({ item }) => item._id !== selectedID).map(({ item: foodItem }) => {
                 // For each food item, return an annotation.
@@ -104,9 +106,22 @@ const Home = () => {
                     borderRadius: '50%',
                     overflow: 'hidden',
                   }}>
-                    {foodItem.photo ? <img src={foodItem.photo} style={{ width: 30, height: 30, alignItems: 'center', borderRadius: '50%', objectFit: "cover" }} /> : <div style={{width: 30, height: 30}} />}
+                    {foodItem.photo ? <img src={foodItem.photo} style={{ width: 30, height: 30, alignItems: 'center', borderRadius: '50%', objectFit: "cover", cursor: "pointer" }} onClick={
+                      () => setSelectedID(foodItem._id)
+                    } /> : <div style={{width: 30, height: 30, cursor: "pointer"}} onClick={
+                      () => setSelectedID(foodItem._id)
+                    } />}
                 </div>
               })}
+              {locationState.type === "loaded" && <Box transform="translate(-50%, -50%)"
+                /* @ts-ignore */
+                lat={locationState.position.coords.latitude} lng={locationState.position.coords.longitude}
+                backgroundColor="blue.500"
+                border="3px solid white"
+                w={6}
+                h={6}
+                borderRadius="50%"
+              />}
               {selectedItem && <div
                 /* @ts-ignore */
                 lat={selectedItem.lat} lng={selectedItem.long}
@@ -124,7 +139,11 @@ const Home = () => {
                   position: 'relative',
                 }}
               >
-                {selectedItem.photo ? <img src={selectedItem.photo} style={{ width: 90, height: 90, alignItems: 'center', borderRadius: '50%', objectFit: "cover" }} /> : <div style={{width: 90, height: 90}} />}
+                {selectedItem.photo ? <img src={selectedItem.photo} style={{ width: 90, height: 90, alignItems: 'center', borderRadius: '50%', objectFit: "cover", cursor: "pointer" }} onClick={
+                  () => setSelectedID(null)
+                } /> : <div style={{ width: 90, height: 90, cursor: "pointer" }} onClick={
+                  () => setSelectedID(null)
+                } />}
                 <Box fontSize="md" textAlign="left" position="absolute" backgroundColor="whiteAlpha.900" backdropFilter="saturate(0)" color="black" width={300} p={4} borderRadius={10} bottom={100} shadow="base">
                   <Text fontSize="lg" fontWeight="bold">{selectedItem.description}</Text>
                   {locationState.type === "loaded" && <Text color="gray.500">{unitify(distance([locationState.position!.coords.longitude, locationState.position!.coords.latitude], [selectedItem.long, selectedItem.lat], {
@@ -132,15 +151,6 @@ const Home = () => {
                   }))} away</Text>}
                 </Box>
               </div>}
-              {locationState.type === "loaded" && <Box transform="translate(-50%, -50%)"
-                /* @ts-ignore */
-                lat={locationState.position.coords.latitude} lng={locationState.position.coords.longitude}
-                backgroundColor="blue.500"
-                border="3px solid white"
-                w={6}
-                h={6}
-                borderRadius="50%"
-              />}
             </GoogleMapReact>
           </Box>
           <Box w={["full", "full", 540]} h={["auto", "auto", "full"]} overflow={["visible", "auto"]}>
@@ -152,9 +162,20 @@ const Home = () => {
             {sortedResults.map(({ item: foodItem }) => {
               return <a href="#" onClick={e => {
                 e.preventDefault();
-                setSelectedID(foodItem._id);
+                if (selectedID === foodItem._id) {
+                  setSelectedID(null);
+                  setCenter(null);
+                  setZoom(null);
+                } else {
+                  setSelectedID(foodItem._id);
+                  setCenter({
+                    lat: foodItem.lat,
+                    lng: foodItem.long,
+                  });
+                  setZoom(17);
+                }
               }}>
-                <Flex key={foodItem._id} p={4} alignItems="center" borderBottom="1px" borderBottomColor="gray.200" gap={3}>
+                <Flex key={foodItem._id} p={4} alignItems="center" borderBottom="1px" borderBottomColor={"gray.200"} backgroundColor={foodItem._id === selectedID ? "blue.100" : "white"} gap={3}>
                   <img src={foodItem.photo} style={{ width: 50, height: 50, alignItems: 'center', borderRadius: '50%', objectFit: "cover" }} />
                   <Text flexGrow={1}>{foodItem.description}</Text>
                   {locationState.type === "loaded" && <Text color="gray.500">{unitify(distance([locationState.position!.coords.longitude, locationState.position!.coords.latitude], [foodItem.long, foodItem.lat], {
