@@ -18,5 +18,5 @@ export default mutation(async ({ db, auth }, description: string, lat: number, l
         expiresAt: now + expiresIn,
         userID: user._id,
     };
-    db.insert("foodItem", item);
+    db.insert("foodItems", item);
 });

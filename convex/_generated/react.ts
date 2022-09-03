@@ -10,6 +10,7 @@
  */
 
 import type createFoodItem from "../createFoodItem";
+import type deleteFoodItem from "../deleteFoodItem";
 import type getCounter from "../getCounter";
 import type getUserDetails from "../getUserDetails";
 import type incrementCounter from "../incrementCounter";
@@ -38,6 +39,7 @@ export type ConvexAPI = {
   };
   mutations: {
     createFoodItem: ClientMutation<typeof createFoodItem>;
+    deleteFoodItem: ClientMutation<typeof deleteFoodItem>;
     incrementCounter: ClientMutation<typeof incrementCounter>;
     sendMessage: ClientMutation<typeof sendMessage>;
     storeUser: ClientMutation<typeof storeUser>;

@@ -1,6 +1,7 @@
 import { query } from "./_generated/server";
 
-export default query(async ({ db }, filter="") => {
-  const foods = await db.table("foodItems").collect();
-  return foods.filter(f => f.body.includes(filter));
+export default query(async ({ db }) => {
+  const now = Math.floor(Date.now() / 1000);
+  const foods = await db.table("foodItems").filter(q => q.lte(now, q.field("expiresAt"))).collect();
+  return foods;
 });
