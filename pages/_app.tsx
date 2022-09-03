@@ -6,21 +6,33 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { ConvexProviderWithAuth0 } from 'convex/react-auth0';
 import Navbar from '../components/navbar';
 import convexConfig from '../convex.json';
-import { Fragment, useEffect } from 'react';
+import { createContext, Fragment, PropsWithChildren, useContext, useEffect, useState } from 'react';
 import storeUser from '../convex/storeUser';
 import { useMutation } from '../convex/_generated/react';
 
 const convex = new ConvexReactClient(clientConfig);
 const authInfo = convexConfig.authInfo[0];
 
-function UserStorer() {
+const UserIDContext = createContext("");
+
+function UserStorer({ children }: PropsWithChildren<{}>) {
   const storeUser = useMutation("storeUser");
+  const [id, setID] = useState("");
 
   useEffect(() => {
-    storeUser();
+    (async () => {
+      const id = await storeUser();
+      setID(id);
+    })();
   }, [storeUser]);
 
-  return <Fragment />;
+  return <UserIDContext.Provider value={id}>
+    {children}
+  </UserIDContext.Provider>;
+}
+
+export function useUserID() {
+  return useContext(UserIDContext);
 }
 
 function MyApp({ Component, pageProps }) {
@@ -29,11 +41,12 @@ function MyApp({ Component, pageProps }) {
       client={convex}
       authInfo={authInfo}
     >
-      <ChakraProvider>
-        <Navbar />
-        <Component {...pageProps} />
-      </ChakraProvider>
-      <UserStorer />
+      <UserStorer>
+        <ChakraProvider>
+          <Navbar />
+          <Component {...pageProps} />
+        </ChakraProvider>
+      </UserStorer>
     </ConvexProviderWithAuth0>
   )
 }
