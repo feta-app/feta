@@ -1,0 +1,7 @@
+body {
+    background-image: url("landing.png");
+    background-size: 100vw;
+    font-family: 'happy_timehappy_time';
+    src: url('happytime-webfont.woff') format('woff');
+}
+
