@@ -3,6 +3,9 @@ import Image from 'next/image'
 import { useQuery } from '../convex/_generated/react'
 
 import GoogleMapReact from 'google-map-react';
+import { useMemo, useState } from 'react';
+import Fuse from 'fuse.js';
+import { Input } from '@chakra-ui/react';
 
 // function SimpleMap() {
 //   const defaultProps = {
@@ -22,7 +25,19 @@ import GoogleMapReact from 'google-map-react';
 //Feta is a masterstroke of genius
 const Home = () => {
   const foodItems = useQuery("listFoodItems") || [];
-  console.log(foodItems);
+  const searcher = useMemo(() => {
+    return new Fuse(foodItems, {
+      keys: ["description"],
+    });
+  }, [foodItems]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const results = useMemo(() => {
+    if (searchTerm.trim()) {
+      return searcher.search(searchTerm);
+    } else {
+      return foodItems.map(item => ({ item }));
+    }
+  }, [searcher, searchTerm]);
 
   return (
     <div>
@@ -32,7 +47,8 @@ const Home = () => {
       </Head>
 
       <main>
-        
+        <Input type="search" placeholder="Search for a food..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
+
         <div style={{ height: '100vh', width: '100%' }}>
           <GoogleMapReact
             bootstrapURLKeys={{ key: "AIzaSyCSxzMYTqfbSHfVOtitKKztGTPQq-KfwwI" }}
@@ -42,7 +58,7 @@ const Home = () => {
             }}
             defaultZoom={11}
           >
-            {foodItems.map(foodItem => {
+            {results.map(({ item: foodItem }) => {
               // For each food item, return an annotation.
               return <div
                 key={foodItem._id}
