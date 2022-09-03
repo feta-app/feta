@@ -1,3 +1,4 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import { ReactNode } from 'react';
 import {
   Box,
@@ -37,6 +38,7 @@ const NavLink = ({ children }: { children: ReactNode }) => (
 
 export default function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { logout, user } = useAuth0();
 
   return (
     <>
@@ -91,9 +93,7 @@ export default function Navbar() {
               <MenuList>
                 <MenuItem>Settings</MenuItem>
                 <MenuDivider />
-                <MenuItem onClick={() => {
-                  // Logs out
-                }}>Log out</MenuItem>
+                <MenuItem onClick={() => logout({ returnTo: window.location.origin })}>Log out</MenuItem>
                 <MenuItem>Delete Account</MenuItem>
               </MenuList>
             </Menu>
