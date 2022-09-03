@@ -84,10 +84,10 @@ const Home = () => {
         </form>
         <div style={{ height: '100vh', width: '100%' }}>
           <GoogleMapReact
-            bootstrapURLKeys={{ key: "" }}
+            bootstrapURLKeys={{ key: "AIzaSyCvh5ltlHEkTGH0kInCvfOVsjupWUDEeJw" }}
             defaultCenter={{
-              lat: 10.99835602,
-              lng: 77.01502627
+              lat: 39.9534148,
+              lng: -75.1892429
             }}
             defaultZoom={11}
           >
