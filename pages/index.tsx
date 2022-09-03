@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { useQuery } from '../convex/_generated/react'
 
 import GoogleMapReact from 'google-map-react';
+import { filter, useColorModeValue } from '@chakra-ui/react';
 
 // function SimpleMap() {
 //   const defaultProps = {
@@ -20,6 +21,14 @@ import GoogleMapReact from 'google-map-react';
 // thank you
 // you're welcome
 //Feta is a masterstroke of genius
+
+const styleLight = {
+  
+}
+const styleDark = {
+  height: "100vh",
+  filter: "invert(90%)"
+}
 const Home = () => {
   const foodItems = useQuery("listFoodItems") || [];
   console.log(foodItems);
@@ -36,11 +45,12 @@ const Home = () => {
         <div style={{ height: '100vh', width: '100%' }}>
           <GoogleMapReact
             bootstrapURLKeys={{ key: "AIzaSyCSxzMYTqfbSHfVOtitKKztGTPQq-KfwwI" }}
+            // style={useColorModeValue({styleLight}, {styleDark})}
             defaultCenter={{
               lat: 39.9534148,
               lng: -75.1892429
             }}
-            defaultZoom={11}
+            defaultZoom={11}  
           >
             {foodItems.map(foodItem => {
               // For each food item, return an annotation.
