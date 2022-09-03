@@ -21,7 +21,8 @@ import GoogleMapReact from 'google-map-react';
 // you're welcome
 //Feta is a masterstroke of genius
 const Home = () => {
-  const listFoodItems = useQuery("listFoodItems") || [];
+  const foodItems = useQuery("listFoodItems") || [];
+  console.log(foodItems);
 
   return (
     <div>
@@ -41,6 +42,27 @@ const Home = () => {
             }}
             defaultZoom={11}
           >
+            {foodItems.map(foodItem => {
+              // For each food item, return an annotation.
+              return <div
+                key={foodItem._id}
+                /* @ts-ignore */
+                lat={foodItem.lat}
+                /* @ts-ignore */
+                lng={foodItem.long}
+                style={{
+                  color: 'white',
+                  background: 'grey',
+                  padding: '15px 10px',
+                  display: 'inline-flex',
+                  textAlign: 'center',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transform: 'translate(-50%, -50%)',
+                }}>
+                  <img src={foodItem.photo} style={{ width: 50, height: 50 }} />
+                </div>
+            })}
           </GoogleMapReact>
         </div>
       </main>
