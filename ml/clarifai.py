@@ -104,7 +104,7 @@ def main():
         print(requests.post(url, json={
             "path": "provideKeywordsForFoodItem",
             "args": [
-                id, # ID of item
+                item["_id"], # ID of item
                 [{"name": keyword[0], "value": keyword[1]} for keyword in keywords], # keywords
                 token # token so that only we can provide keywords
             ],

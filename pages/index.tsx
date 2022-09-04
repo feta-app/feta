@@ -239,6 +239,11 @@ const Home = () => {
                   }))} away</Text>}
                   <Text color="gray.500">Expires in {ms(selectedItem.expiresAt * 1000 - now, { long: true })}</Text>
                   <Text color="gray.500">Posted by {selectedItem.userName}</Text>
+                  <Heading fontSize="md" mt="4">FetAI™</Heading>
+                  {selectedItem.keywords && <Text fontSize="sm">{selectedItem.keywords.map(({ name, value }) => {
+                    return `${name} (${(value * 100).toFixed(2)}%)`;
+                  }).join(", ")}</Text>}
+                  {!selectedItem.keywords && <Text fontSize="sm">Our FetAI™ is still working on this. Check back soon!</Text>}
                   <Heading fontSize="md" mt="4">Ratings</Heading>
                   <RatingBars ratings={selectedItem.ratings} />
                   {/* @ts-ignore */}
