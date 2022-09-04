@@ -86,6 +86,9 @@ const styleDark = {
   filter: "invert(90%)"
 }
 const Home = () => {
+  const [notifications, setNotifications] = useState(false);
+  const [isRequesting, setRequesting] = useState(false);
+
   const foodItems = useQuery("listFoodItems") || [];
   const searcher = useMemo(() => {
     return new Fuse(foodItems.map(foodItems => ({
@@ -134,6 +137,25 @@ const Home = () => {
       setZoom(15);
     }
   }, [locationState.type]);
+
+  const [oldFoodItems, setOldFoodItems] = useState<Set<string> | null>(null);
+  useEffect(() => {
+    if (foodItems) {
+      // If oldFoodItems is null, we haven't loaded the food items yet.
+      // Load them and set oldFoodItems to the set of food items.
+      if (oldFoodItems === null) {
+        setOldFoodItems(new Set(foodItems.map(item => item._id.id)));
+      } else {
+        // Check if there are any new food items.
+        const newFoodItems = foodItems.filter(item => !oldFoodItems.has(item._id.id));
+        if (newFoodItems.length > 0 && notifications) {
+          // There are new food items. Show a notification.
+          new Notification(`New free food around you: ${newFoodItems.map(item => getTitle(item)).join(", ")}`);
+          setOldFoodItems(new Set(foodItems.map(item => item._id.id)));
+        }
+      }
+    }
+  }, [notifications, oldFoodItems, foodItems]);
   
   const [now, setNow] = useState(Date.now());
   useEffect(() => {
@@ -259,6 +281,22 @@ const Home = () => {
               {locationState.type === "error" && <Box color="red">Couldn't determine location.</Box>}
               <Button colorScheme="orange" onClick={fetchLocation} isLoading={locationState.type === "loading"}>Get me food</Button>
             </Flex>}
+            <Flex px={4} py={2} alignItems="center" borderBottom="1px" borderBottomColor="gray.200">
+              <Text flexGrow={1}>Never miss free food.</Text>
+              <Button colorScheme="orange" onClick={async () => {
+                if (notifications) {
+                  setNotifications(false);
+                } else {
+                  // Get permission to send local notifications.
+                  setRequesting(true);
+                  const permission = await Notification.requestPermission();
+                  setRequesting(false);
+                  if (permission === "granted") {
+                    setNotifications(true);
+                  }
+                }
+              }} isLoading={isRequesting}>{notifications ? "Disable notifications" : "Enable notifications"}</Button>
+            </Flex>
             {sortedResults.map(({ item: foodItem }) => {
               return <a href="#" onClick={e => {
                 e.preventDefault();

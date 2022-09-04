@@ -22,7 +22,7 @@ import {
 import NextLink from 'next/link';
 import { HamburgerIcon, CloseIcon, AddIcon, MoonIcon, SunIcon } from '@chakra-ui/icons';
 
-const Links = ['About', 'Settings'];
+const Links = [];
 
 const NavLink = ({ children }: { children: ReactNode }) => (
   <Link
@@ -71,11 +71,11 @@ export default function Navbar() {
             </HStack>
           </HStack>
           <Flex alignItems={'center'}>
-            <Box>
+            {/* <Box>
               <Button onClick={toggleColorMode} >
                 {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
               </Button>
-            </Box>
+            </Box> */}
             <NextLink passHref href="/add">
               <Button
                 as="a"
@@ -103,11 +103,9 @@ export default function Navbar() {
                 />
               </MenuButton>
               <MenuList>
-                <a href="/delete"><MenuItem>Delete Submitted Items</MenuItem></a>
-                <MenuItem>Settings</MenuItem>
+                <NextLink href="/delete"><a><MenuItem>Manage Submitted Items</MenuItem></a></NextLink>
                 <MenuDivider />
                 <MenuItem onClick={() => logout({ returnTo: window.location.origin })}>Log out</MenuItem>
-                <MenuItem>Delete Account</MenuItem>
               </MenuList>
             </Menu>
           </Flex>
