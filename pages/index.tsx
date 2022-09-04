@@ -1,9 +1,9 @@
 import Head from 'next/head'
-import { useQuery } from '../convex/_generated/react'
+import { useMutation, useQuery } from '../convex/_generated/react'
 import GoogleMapReact from 'google-map-react';
 import { useEffect, useMemo, useState } from 'react';
 import Fuse from 'fuse.js';
-import { Box, Button, Flex, Heading, Input, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Heading, Input, Progress, Text } from '@chakra-ui/react';
 import { unitify, useLocationState } from '../components/location';
 import distance from '@turf/distance';
 import ms from 'ms';
@@ -25,6 +25,58 @@ import ms from 'ms';
 // you're welcome
 //Feta is a masterstroke of genius
 
+function RatingBars({ ratings }: { ratings: number[] }) {
+  const [bad, neutral, good] = ratings;
+  const total = bad + neutral + good;
+  const badPercent = total === 0 ? 0 : bad / total * 100;
+  const neutralPercent = total === 0 ? 0 : neutral / total * 100;
+  const goodPercent = total === 0 ? 0 : good / total * 100;
+  return <Box>
+    <Progress mt={2} value={goodPercent} colorScheme="green" />
+    <Flex fontSize="sm">
+      <Text flexGrow={1}>Good food</Text>
+      <Text textAlign="right">{good.toLocaleString()}</Text>
+    </Flex>
+    <Progress mt={2} value={neutralPercent} colorScheme="yellow" />
+    <Flex fontSize="sm">
+      <Text flexGrow={1}>Poor food</Text>
+      <Text textAlign="right">{neutral.toLocaleString()}</Text>
+    </Flex>
+    <Progress mt={2} value={badPercent} colorScheme="red" />
+    <Flex fontSize="sm">
+      <Text flexGrow={1}>No food</Text>
+      <Text textAlign="right">{bad.toLocaleString()}</Text>
+    </Flex>
+  </Box>
+}
+
+function RatingForm({ item }: { item: any }) {
+  const rateFoodItems = useMutation("rateFoodItems");
+  const [isRating, setRating] = useState(false);
+  const rate = async (rating: 0 | 1 | 2) => {
+    setRating(true);
+    await rateFoodItems(item._id, rating);
+    setRating(false);
+  };
+  return <Flex gap={2} w="full" mt={1}>
+    <Button colorScheme="red" flexGrow={1} isLoading={isRating} onClick={() => rate(0)}>Scam</Button>
+    <Button colorScheme="yellow" flexGrow={1} isLoading={isRating} onClick={() => rate(1)}>Poor</Button>
+    <Button colorScheme="green" flexGrow={1} isLoading={isRating} onClick={() => rate(2)}>Good!</Button>
+  </Flex>
+}
+
+function getTitle(item) {
+  if (item.description) {
+    return item.description;
+  } else if (item.keywords && item.keywords.length > 0 && item.keywords[0].length > 0) {
+    const name = item.keywords[0].name;
+    // Sentence-case the name.
+    return name[0].toUpperCase() + name.slice(1);
+  } else {
+    return "???";
+  }
+}
+
 const styleLight = {
   
 }
@@ -35,7 +87,10 @@ const styleDark = {
 const Home = () => {
   const foodItems = useQuery("listFoodItems") || [];
   const searcher = useMemo(() => {
-    return new Fuse(foodItems, {
+    return new Fuse(foodItems.map(foodItems => ({
+      ...foodItems,
+      keywords: foodItems.keywords?.slice(3),
+    })), {
       keys: [
         {
           name: "description",
@@ -106,7 +161,7 @@ const Home = () => {
         <Input type="search" placeholder="Search for a food..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} />
 
         <Flex width="100%" height={["auto", "auto", "100vh"]} direction={["column", "column", "row"]}>
-          <Box h={[320, 320, "full"]} flexGrow={[0, 0, 1]}>
+          <Box h={[500, 500, "full"]} flexGrow={[0, 0, 1]}>
             <GoogleMapReact
               bootstrapURLKeys={{ key: "AIzaSyCSxzMYTqfbSHfVOtitKKztGTPQq-KfwwI" }}
               center={center}
@@ -170,13 +225,21 @@ const Home = () => {
                 } /> : <div style={{ width: 90, height: 90, cursor: "pointer" }} onClick={
                   () => setSelectedID(null)
                 } />}
-                <Box fontSize="md" textAlign="left" position="absolute" backgroundColor="whiteAlpha.900" backdropFilter="saturate(0)" color="black" width={300} p={4} borderRadius={10} bottom={100} shadow="base">
-                  <Text fontSize="lg" fontWeight="bold">{selectedItem.description}</Text>
+                <Box onScroll={e => {
+                  e.stopPropagation();
+                }} onClick={e => {
+                  e.stopPropagation();
+                }} maxHeight={400} overflow="auto" fontSize="md" textAlign="left" position="absolute" backgroundColor="whiteAlpha.900" backdropFilter="saturate(0)" color="black" width={300} p={4} borderRadius={10} bottom={100} shadow="base">
+                  <Text fontSize="lg" fontWeight="bold">{getTitle(selectedItem)}</Text>
                   {locationState.type === "loaded" && <Text color="gray.800" mb={2}>{unitify(distance([locationState.position!.coords.longitude, locationState.position!.coords.latitude], [selectedItem.long, selectedItem.lat], {
                     units: "miles",
                   }))} away</Text>}
                   <Text color="gray.500">Expires in {ms(selectedItem.expiresAt * 1000 - now, { long: true })}</Text>
                   <Text color="gray.500">Posted by {selectedItem.userName}</Text>
+                  <Heading fontSize="md" textTransform="uppercase" mt="4">Ratings</Heading>
+                  <RatingBars ratings={selectedItem.ratings} />
+                  <Heading fontSize="md" textTransform="uppercase" mt="4">How was the food?</Heading>
+                  <RatingForm item={selectedItem} />
                 </Box>
               </div>}
             </GoogleMapReact>
@@ -206,7 +269,7 @@ const Home = () => {
                 <Flex key={foodItem._id} p={4} alignItems="center" borderBottom="1px" borderBottomColor={"gray.200"} backgroundColor={foodItem._id === selectedID ? "blue.100" : "white"} gap={3}>
                   <img src={foodItem.photo} style={{ width: 50, height: 50, alignItems: 'center', borderRadius: '50%', objectFit: "cover" }} />
                   <Box flexGrow={1}>
-                    <Text fontWeight="bold">{foodItem.description}</Text>
+                    <Text fontWeight="bold">{getTitle(foodItem)}</Text>
                     <Text color="gray.500">Expires in {ms(foodItem.expiresAt * 1000 - now, { long: true })}</Text>
                   </Box>
                   {locationState.type === "loaded" && <Text textAlign="right" fontSize="lg">{unitify(distance([locationState.position!.coords.longitude, locationState.position!.coords.latitude], [foodItem.long, foodItem.lat], {

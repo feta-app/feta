@@ -22,20 +22,24 @@ export default mutation(async ({ db, auth }, foodItemID: string, rating: 0 | 1 |
     const existingRating = await db.table("ratings").filter(q => q.and(
         q.eq(q.field("userID"), user._id),
         q.eq(q.field("foodItemID"), foodItemID),
-    )).unique();
+    )).first();
+
+    const now = Math.floor(Date.now() / 1000);
 
     if (existingRating) {
-        throw new Error("You've already rated this food item");
-    }
+        db.patch(existingRating._id, {
+            rating,
+        });
+        return existingRating._id;
+    } else {
+        // Create the rating.
+        const ratingDoc = {
+            userID: user._id,
+            foodItemID,
+            rating,
+            createdAt: now,
+        };
 
-    // Create the rating.
-    const now = Math.floor(Date.now() / 1000);
-    const ratingDoc = {
-        userID: user._id,
-        foodItemID,
-        rating,
-        createdAt: now,
-    };
-
-    return db.insert("ratings", ratingDoc);
+        return db.insert("ratings", ratingDoc);
+    }    
 });
