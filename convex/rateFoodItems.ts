@@ -5,7 +5,7 @@ export default mutation(async ({ db, auth }, foodItemID: string, rating: 0 | 1 |
     // Check that the user is logged in and exists.
     const identity = await auth.getUserIdentity();
     if (!identity) throw new Error("Unauthenticated call to rateFoodItems");
-    const user = await db.table("users").filter(q => q.eq(q.field("tokenIdentifier"), identity.tokenIdentifier)).unique();
+    const user = await db.table("users").filter(q => q.eq(q.field("tokenIdentifier"), identity.tokenIdentifier)).first();
 
     // Check that the food item exists.
     const foodItem = await db.table("foodItems").filter(q => q.and(q.eq(foodItemID, q.field("_id")), q.neq(user._id, q.field("userID")))).unique();

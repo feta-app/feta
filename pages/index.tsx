@@ -7,6 +7,7 @@ import { Box, Button, Flex, Heading, Input, Progress, Text } from '@chakra-ui/re
 import { unitify, useLocationState } from '../components/location';
 import distance from '@turf/distance';
 import ms from 'ms';
+import { useUserID } from './_app';
 
 // function SimpleMap() {
 //   const defaultProps = {
@@ -66,11 +67,9 @@ function RatingForm({ item }: { item: any }) {
 }
 
 function getTitle(item) {
-  console.log(item.description);
-  console.log(item.keywords);
   if (item.description) {
     return item.description;
-  } else if (item.keywords && item.keywords.length > 0 && item.keywords[0].length > 0) {
+  } else if (item.keywords && item.keywords.length > 0 && item.keywords[0].name.length > 0) {
     const name = item.keywords[0].name;
     // Sentence-case the name.
     return name[0].toUpperCase() + name.slice(1);
@@ -151,6 +150,8 @@ const Home = () => {
     lng: -75.1892429,
   });
   const [zoom, setZoom] = useState(14);
+
+  const userID = useUserID();
 
   return (
     <div>
@@ -238,10 +239,11 @@ const Home = () => {
                   }))} away</Text>}
                   <Text color="gray.500">Expires in {ms(selectedItem.expiresAt * 1000 - now, { long: true })}</Text>
                   <Text color="gray.500">Posted by {selectedItem.userName}</Text>
-                  <Heading fontSize="md" textTransform="uppercase" mt="4">Ratings</Heading>
+                  <Heading fontSize="md" mt="4">Ratings</Heading>
                   <RatingBars ratings={selectedItem.ratings} />
-                  <Heading fontSize="md" textTransform="uppercase" mt="4">How was the food?</Heading>
-                  <RatingForm item={selectedItem} />
+                  {/* @ts-ignore */}
+                  {userID.$id === selectedItem.userID.$id ? <Text color="gray.500" fontSize="sm" mt={2}>(Nice try, but you can't rate your own food.)</Text> : <><Heading fontSize="md" textTransform="uppercase" mt="4">How was the food?</Heading>
+                  <RatingForm item={selectedItem} /></>}
                 </Box>
               </div>}
             </GoogleMapReact>
