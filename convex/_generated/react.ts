@@ -14,6 +14,7 @@ import type deleteFoodItem from "../deleteFoodItem";
 import type getUserDetails from "../getUserDetails";
 import type listFoodFromUser from "../listFoodFromUser";
 import type listFoodItems from "../listFoodItems";
+import type provideKeywordsForFoodItem from "../provideKeywordsForFoodItem";
 import type rateFoodItems from "../rateFoodItems";
 import type storeUser from "../storeUser";
 import type { OptimisticLocalStore as GenericOptimisticLocalStore } from "convex/browser";
@@ -37,6 +38,9 @@ export type ConvexAPI = {
   mutations: {
     createFoodItem: ClientMutation<typeof createFoodItem>;
     deleteFoodItem: ClientMutation<typeof deleteFoodItem>;
+    provideKeywordsForFoodItem: ClientMutation<
+      typeof provideKeywordsForFoodItem
+    >;
     rateFoodItems: ClientMutation<typeof rateFoodItems>;
     storeUser: ClientMutation<typeof storeUser>;
   };
