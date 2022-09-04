@@ -169,6 +169,7 @@ const Home = () => {
                     units: "miles",
                   }))} away</Text>}
                   <Text color="gray.500">Expires in {ms(selectedItem.expiresAt * 1000 - now, { long: true })}</Text>
+                  <Text color="gray.500">Posted by {selectedItem.userName}</Text>
                 </Box>
               </div>}
             </GoogleMapReact>

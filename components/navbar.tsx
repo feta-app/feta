@@ -103,6 +103,7 @@ export default function Navbar() {
                 />
               </MenuButton>
               <MenuList>
+                <a href="/delete"><MenuItem>Delete Submitted Items</MenuItem></a>
                 <MenuItem>Settings</MenuItem>
                 <MenuDivider />
                 <MenuItem onClick={() => logout({ returnTo: window.location.origin })}>Log out</MenuItem>
