@@ -93,7 +93,7 @@ const Home = () => {
   const searcher = useMemo(() => {
     return new Fuse(foodItems.map(foodItems => ({
       ...foodItems,
-      keywords: foodItems.keywords?.slice(3),
+      keywords: foodItems.keywords?.slice(0, 3),
     })), {
       keys: [
         {
