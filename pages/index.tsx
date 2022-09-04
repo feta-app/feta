@@ -36,7 +36,7 @@ const Home = () => {
   const foodItems = useQuery("listFoodItems") || [];
   const searcher = useMemo(() => {
     return new Fuse(foodItems, {
-      keys: ["description"],
+      keys: ["description", "keywords.name"],
     });
   }, [foodItems]);
   const [searchTerm, setSearchTerm] = useState("");
