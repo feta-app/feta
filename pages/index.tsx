@@ -281,7 +281,7 @@ const Home = () => {
               {locationState.type === "error" && <Box color="red">Couldn't determine location.</Box>}
               <Button colorScheme="orange" onClick={fetchLocation} isLoading={locationState.type === "loading"}>Get me food</Button>
             </Flex>}
-            <Flex px={4} py={2} alignItems="center" borderBottom="1px" borderBottomColor="gray.200">
+            {"Notification" in window && <Flex px={4} py={2} alignItems="center" borderBottom="1px" borderBottomColor="gray.200">
               <Text flexGrow={1}>Never miss free food.</Text>
               <Button colorScheme="orange" onClick={async () => {
                 if (notifications) {
@@ -296,7 +296,7 @@ const Home = () => {
                   }
                 }
               }} isLoading={isRequesting}>{notifications ? "Disable notifications" : "Enable notifications"}</Button>
-            </Flex>
+            </Flex>}
             {sortedResults.map(({ item: foodItem }) => {
               return <a href="#" onClick={e => {
                 e.preventDefault();
