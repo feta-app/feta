@@ -26,7 +26,7 @@ stub = service_pb2_grpc.V2Stub(channel)
 # Example: metadata = (('authorization', 'Key ' + 'a123457612345678'),)
 ##############################################################################################
  
-metadata = (('authorization', 'Key ' + 'cd34f53643834a96a4135c856a72aac6'),)
+metadata = (('authorization', 'Key ' + '620a2c05144b4be3abef0698b9aaa1f2'),)
 # Or, if you were to use an API Key:
 # metadata = (('authorization', 'Key ' + 'YOUR_CLARIFAI_API_KEY_HERE'),)
 # Yes, the word 'Key' appears in addition to the alphanumeric PAT or API Key
@@ -37,7 +37,7 @@ metadata = (('authorization', 'Key ' + 'cd34f53643834a96a4135c856a72aac6'),)
 # Both of them are specified as string values.
 ##############################################################################################
 
-userDataObject = resources_pb2.UserAppIDSet(user_id='clarech712', app_id='my-first-application')
+userDataObject = resources_pb2.UserAppIDSet(user_id='s1p7o6ni71ba', app_id='feta')
 
 
 # Insert here the initialization code as outlined on this page:
@@ -101,14 +101,14 @@ def main():
         url = f"{origin}/api/0.1.9/udf"
         id = item["_id"]["$id"]
         print(f"Analyzed {id}: {[keyword[0] for keyword in keywords]}")
-        requests.post(url, json={
+        print(requests.post(url, json={
             "path": "provideKeywordsForFoodItem",
             "args": [
                 id, # ID of item
                 [{"name": keyword[0], "value": keyword[1]} for keyword in keywords], # keywords
                 token # token so that only we can provide keywords
             ],
-        })
+        }).text)
 
 if __name__ == "__main__":
     while True:

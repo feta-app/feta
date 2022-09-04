@@ -242,7 +242,7 @@ const Home = () => {
                   <Heading fontSize="md" mt="4">Ratings</Heading>
                   <RatingBars ratings={selectedItem.ratings} />
                   {/* @ts-ignore */}
-                  {userID.$id === selectedItem.userID.$id ? <Text color="gray.500" fontSize="sm" mt={2}>(Nice try, but you can't rate your own food.)</Text> : <><Heading fontSize="md" textTransform="uppercase" mt="4">How was the food?</Heading>
+                  {userID.id === selectedItem.userID.id ? <Text color="gray.500" fontSize="sm" mt={2}>(Nice try, but you can't rate your own food.)</Text> : <><Heading fontSize="md" textTransform="uppercase" mt="4">How was the food?</Heading>
                   <RatingForm item={selectedItem} /></>}
                 </Box>
               </div>}
