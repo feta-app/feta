@@ -1,3 +1,4 @@
+import time
 import json
 import requests
 import base64
@@ -106,4 +107,6 @@ def main():
         })
 
 if __name__ == "__main__":
-    main()
+    while True:
+        main()
+        time.sleep(10)
