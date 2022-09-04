@@ -92,6 +92,10 @@ def main():
     token = token_file.read().strip()
     token_file.close()
     for item in items:
+        if "photo" not in item:
+            continue
+        if "keywords" in item:
+            continue
         file_bytes = base64.b64decode(item["photo"][len("data:image/jpeg;base64,"):])
         keywords = analyze(file_bytes)
         url = f"{origin}/api/0.1.9/udf"

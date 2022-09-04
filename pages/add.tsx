@@ -76,7 +76,7 @@ export default function AddFood() {
                     } finally {
                         setSubmitting(false);
                     }
-                }} colorScheme="orange" width="100%">Add food</Button>
+                }} colorScheme="orange" width="100%" isLoading={isSubmitting}>Add food</Button>
             </Box>
         </Box>
     </Box>;
