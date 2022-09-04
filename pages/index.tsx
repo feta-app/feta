@@ -144,7 +144,7 @@ const Home = () => {
   }, []);
 
   const [selectedID, setSelectedID] = useState<string | null>(null);
-  const selectedItem = foodItems.find(item => item._id === selectedID);
+  const selectedItem = foodItems.find(item => item._id.id === selectedID);
   const [center, setCenter] = useState({
     lat: 39.9534148,
     lng: -75.1892429,
@@ -191,9 +191,9 @@ const Home = () => {
                     overflow: 'hidden',
                   }}>
                     {foodItem.photo ? <img src={foodItem.photo} style={{ width: 30, height: 30, alignItems: 'center', borderRadius: '50%', objectFit: "cover", cursor: "pointer" }} onClick={
-                      () => setSelectedID(foodItem._id)
+                      () => setSelectedID(foodItem._id.id)
                     } /> : <div style={{width: 30, height: 30, cursor: "pointer"}} onClick={
-                      () => setSelectedID(foodItem._id)
+                      () => setSelectedID(foodItem._id.id)
                     } />}
                 </div>
               })}
@@ -262,12 +262,12 @@ const Home = () => {
             {sortedResults.map(({ item: foodItem }) => {
               return <a href="#" onClick={e => {
                 e.preventDefault();
-                if (selectedID === foodItem._id) {
+                if (selectedID === foodItem._id.id) {
                   setSelectedID(null);
                   setCenter(null);
                   setZoom(null);
                 } else {
-                  setSelectedID(foodItem._id);
+                  setSelectedID(foodItem._id.id);
                   setCenter({
                     lat: foodItem.lat,
                     lng: foodItem.long,
@@ -275,7 +275,7 @@ const Home = () => {
                   setZoom(17);
                 }
               }}>
-                <Flex key={foodItem._id} p={4} alignItems="center" borderBottom="1px" borderBottomColor={"gray.200"} backgroundColor={foodItem._id === selectedID ? "blue.100" : "white"} gap={3}>
+                <Flex key={foodItem._id} p={4} alignItems="center" borderBottom="1px" borderBottomColor={"gray.200"} backgroundColor={foodItem._id.id === selectedID ? "blue.100" : "white"} gap={3}>
                   <img src={foodItem.photo} style={{ width: 50, height: 50, alignItems: 'center', borderRadius: '50%', objectFit: "cover" }} />
                   <Box flexGrow={1}>
                     <Text fontWeight="bold">{getTitle(foodItem)}</Text>
