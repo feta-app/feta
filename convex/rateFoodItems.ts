@@ -8,14 +8,9 @@ export default mutation(async ({ db, auth }, foodItemID: string, rating: 0 | 1 |
     const user = await db.table("users").filter(q => q.eq(q.field("tokenIdentifier"), identity.tokenIdentifier)).unique();
 
     // Check that the food item exists.
-    const foodItem = await db.table("foodItems").filter(q => q.eq(foodItemID, q.field("_id"))).unique();
+    const foodItem = await db.table("foodItems").filter(q => q.and(q.eq(foodItemID, q.field("_id")), q.neq(user._id, q.field("userID")))).unique();
     if (!foodItem) {
         throw new Error("Food item not found");
-    }
-
-    // Check that the user's not trying to rate their own food.
-    if (foodItem.userID === user._id) {
-        throw new Error("You can't rate your own food");
     }
 
     // Check that there isn't already a rating for this user and food item.

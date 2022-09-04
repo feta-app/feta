@@ -66,6 +66,8 @@ function RatingForm({ item }: { item: any }) {
 }
 
 function getTitle(item) {
+  console.log(item.description);
+  console.log(item.keywords);
   if (item.description) {
     return item.description;
   } else if (item.keywords && item.keywords.length > 0 && item.keywords[0].length > 0) {
