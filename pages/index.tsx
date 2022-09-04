@@ -36,7 +36,14 @@ const Home = () => {
   const foodItems = useQuery("listFoodItems") || [];
   const searcher = useMemo(() => {
     return new Fuse(foodItems, {
-      keys: ["description", "keywords.name"],
+      keys: [
+        {
+          name: "description",
+          weight: 3,
+        }, {
+          name: "keywords.name",
+          weight: 1,
+        }],
     });
   }, [foodItems]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -202,7 +209,7 @@ const Home = () => {
                     <Text fontWeight="bold">{foodItem.description}</Text>
                     <Text color="gray.500">Expires in {ms(foodItem.expiresAt * 1000 - now, { long: true })}</Text>
                   </Box>
-                  {locationState.type === "loaded" && <Text fontSize="lg">{unitify(distance([locationState.position!.coords.longitude, locationState.position!.coords.latitude], [foodItem.long, foodItem.lat], {
+                  {locationState.type === "loaded" && <Text textAlign="right" fontSize="lg">{unitify(distance([locationState.position!.coords.longitude, locationState.position!.coords.latitude], [foodItem.long, foodItem.lat], {
                     units: "miles",
                   }))}</Text>}
                 </Flex>
