@@ -188,7 +188,7 @@ const Home = () => {
         <Flex width="100%" height={["auto", "auto", "100vh"]} direction={["column", "column", "row"]}>
           <Box h={[500, 500, "full"]} flexGrow={[0, 0, 1]}>
             <GoogleMapReact
-              bootstrapURLKeys={{ key: "AIzaSyCSxzMYTqfbSHfVOtitKKztGTPQq-KfwwI" }}
+              bootstrapURLKeys={{ key: process.env.NEXT_PUBLIC_GMAP_API }}
               center={center}
               zoom={zoom}
             >
